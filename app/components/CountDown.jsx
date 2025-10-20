@@ -48,10 +48,10 @@ function CountDown() {
 
   return (
     <div
-      className="grid grid-cols-5 gap-x-4 p-3 rounded-lg bottom-40 text-black w-[60%] mx-auto"
-      data-aos="fade-up"
-      data-aos-once="true"
-    >
+        className="grid grid-cols-5 gap-x-4 p-3 rounded-lg bottom-40 text-black w-[90%] md:w-[80%] lg:w-[70%] mx-auto text-center place-items-center"
+        data-aos="fade-up"
+        data-aos-once="true"
+        >
       <h1
         className={`${hello_january.className} col-span-5 text-5xl w-full text-white text-center mb-6`}
       >

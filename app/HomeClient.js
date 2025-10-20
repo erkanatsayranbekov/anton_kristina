@@ -67,7 +67,7 @@ export default function HomeClient() {
           </div>
         </div>
       </section>
-      <section className="bg-[url(/background.jpg)] bg-cover bg-center min-h-[800px] h-[50vh]">
+      <section className="bg-[url(/background.jpg)] bg-cover bg-center min-h-[800px]">
         <div className=" flex flex-col gap-[5vh] h-full bg-[rgba(0,0,0,0.4)] pt-[270px]">
           <div
             className="w-[90%] mx-auto"
@@ -102,7 +102,7 @@ export default function HomeClient() {
               Август, 2026
             </h3>
             <div
-              className={`${alethianext.className} flex justify-end uppercase `}
+              className={`${alethianext.className} flex justify-end uppercase mb-8`}
             >
               <table className=" caption-bottom border-collapse ">
                 <thead>
@@ -212,25 +212,27 @@ export default function HomeClient() {
           data-aos-delay="400"
           data-aos-once="true"
         >
-          <YMaps
-            query={{
-              lang: "ru_RU",
-              apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
-            }}
-          >
-            <Map
-              defaultState={{ center: [54.979097, 73.374248], zoom: 17 }}
-              width="100%"
-              height="250px"
+          <div className="z-20 border-[1px]">
+            <YMaps
+              query={{
+                lang: "ru_RU",
+                apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
+              }}
             >
-              <Placemark
-                geometry={[54.979097, 73.374248]}
-                options={{ fillColor: "#00000" }}
-              />
-            </Map>
-          </YMaps>
-          <div className=" absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
-          <div className=" absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
+              <Map
+                defaultState={{ center: [54.979097, 73.374248], zoom: 17 }}
+                width="100%"
+                height="250px"
+              >
+                <Placemark
+                  geometry={[54.979097, 73.374248]}
+                  options={{ fillColor: "#00000" }}
+                />
+              </Map>
+            </YMaps>
+          </div>
+          <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
+          <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
         </div>
 
         <div
@@ -273,11 +275,13 @@ export default function HomeClient() {
           data-aos-delay="400"
           data-aos-once="true"
         >
+          <div className="z-20 border-[1px]">
           <YMaps
             query={{
               lang: "ru_RU",
               apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
             }}
+            className="z-20"
           >
             <Map
               defaultState={{ center: [54.994946, 73.365584], zoom: 17 }}
@@ -290,11 +294,12 @@ export default function HomeClient() {
               />
             </Map>
           </YMaps>
-          <div className=" absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
-          <div className=" absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
+          </div>
+          <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
+          <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
         </div>
       </section>
-      <section className="bg-[url(/background_2.jpg)] bg-cover bg-center min-h-[800px] h-[50vh]">
+      <section className="bg-[url(/background_2.jpg)] bg-cover bg-center min-h-[800px]">
         <div className=" flex flex-col gap-[5vh] h-full bg-[rgba(0,0,0,0.4)] p-2.5">
           <div
             className=" w-full text-right justify-end gap-4 flex items-center mb-8"
@@ -358,7 +363,7 @@ export default function HomeClient() {
           </div>
         </div>
       </section>
-      <section className=" bg-white text-black  p-[50px]">
+      <section className=" bg-white text-black  py-[50px]">
         <div
           className=" w-full text-right justify-end gap-4 flex items-center mb-8"
           data-aos="fade-up"
@@ -368,7 +373,7 @@ export default function HomeClient() {
           <div className=" h-[1px] bg-black max-w-[120px] grow-1 mt-6"></div>
         </div>
         <p
-          className={`${alethianext.className} text-[16px] text-right`}
+          className={`${alethianext.className} text-[16px] text-right px-[50px]`}
           data-aos="fade-up"
           data-aos-delay="200"
           data-aos-once="true"
@@ -380,19 +385,19 @@ export default function HomeClient() {
           Мы будем рады, если вы поддержите цветовую палитру нашей свадьбы:
         </p>
         <div
-          className="flex gap-4 justify-between my-2.5 w-[80%] mx-auto"
+          className="flex gap-4 md:gap-1 justify-between my-2.5 w-[80%] mx-auto"
           data-aos="fade-up"
           data-aos-delay="400"
           data-aos-once="true"
         >
-          <div className="rounded-full bg-[#1A1C18] w-[50px] h-[50px]" />
-          <div className="rounded-full bg-[#363C2F] w-[50px] h-[50px]" />
-          <div className="rounded-full bg-[#646A56] w-[50px] h-[50px]" />
-          <div className="rounded-full bg-[#97928C] w-[50px] h-[50px]" />
-          <div className="rounded-full bg-[#F1F1F1] w-[50px] h-[50px]" />
+          <div className="rounded-full bg-[#1A1C18] w-[50px] h-[50px]  sm:w-[30px] sm:h-[30px]" />
+          <div className="rounded-full bg-[#363C2F] w-[50px] h-[50px]  sm:w-[30px] sm:h-[30px]" />
+          <div className="rounded-full bg-[#646A56] w-[50px] h-[50px]  sm:w-[30px] sm:h-[30px]" />
+          <div className="rounded-full bg-[#97928C] w-[50px] h-[50px]  sm:w-[30px] sm:h-[30px]" />
+          <div className="rounded-full bg-[#F1F1F1] w-[50px] h-[50px]  sm:w-[30px] sm:h-[30px]" />
         </div>
       </section>
-      <section className="bg-[url(/background_3.jpg)] bg-cover bg-center min-h-[800px] h-[50vh]">
+      <section className="bg-[url(/background_3.jpg)] bg-cover bg-center min-h-[800px]">
         <div className=" flex flex-col gap-[5vh] h-full bg-[rgba(0,0,0,0.4)] p-8">
           <div
             className=" w-full text-right justify-end gap-4 flex items-center mb-36"
