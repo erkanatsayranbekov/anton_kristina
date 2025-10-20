@@ -3,7 +3,7 @@ import { alethianext, mak, hello_january } from "./ui/fonts";
 import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { YMaps, Map, Placemark, Button } from "@pbe/react-yandex-maps";
 import CountDown from "./components/CountDown";
 
@@ -12,10 +12,66 @@ export default function HomeClient() {
     AOS.init({ duration: 2000 });
   }, []);
 
+  const [name, setName] = useState("");
+  const [transfer, setTransfer] = useState(false);
+  const [food, setFood] = useState([]);
+  const [alcohol, setAlcohol] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const Vote = async () => {
+    if (!name) {
+      alert("Введите имя");
+      return;
+    }
+    let food_str = ''
+    food.forEach((f, index) => {
+      if (index === 0) {
+        food_str = f
+      } else {
+        food_str = food_str + ", " + f
+      }
+    })
+    let transfer_str = ''
+    if (transfer === true) {
+      transfer_str = 'Нужен'
+    } else {
+      transfer_str = 'Не нужен'
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("https://sheetdb.io/api/v1/gxxux5b2ajihs", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          data: [
+            {
+              "Имя и Фамилия": name,
+              "Трансфер": transfer_str,
+              "Предпочтения по еде": food_str,
+              "Пожелания по алкоголю": alcohol,
+            },
+          ],
+        }),
+      });
+
+      const data = await response.json();
+      console.log("Ответ SheetDB:", data);
+      alert("Ваш ответ успешно отправлен!");
+    } catch (error) {
+      alert("Ошибка при отправке. Попробуйте снова.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <main>
       <section className="header max-[800px]:h-[calc(100vh-70px)] bg-white">
-        <div className="relative text-black gap-[20vh] pt-[15vh] h-[calc(100vh-70px) flex flex-col justify-center items-center">
+        <div className="relative text-black gap-[20vh] pt-[15vh] h-[calc(100vh-70px)] flex flex-col justify-center items-center">
           <div className=" flex flex-col">
             <div
               className={`text-[140px] ${mak.className} m-0 flex justify-center items-center`}
@@ -276,24 +332,24 @@ export default function HomeClient() {
           data-aos-once="true"
         >
           <div className="z-20 border-[1px]">
-          <YMaps
-            query={{
-              lang: "ru_RU",
-              apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
-            }}
-            className="z-20"
-          >
-            <Map
-              defaultState={{ center: [54.994946, 73.365584], zoom: 17 }}
-              width="100%"
-              height="250px"
+            <YMaps
+              query={{
+                lang: "ru_RU",
+                apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
+              }}
+              className="z-20"
             >
-              <Placemark
-                geometry={[54.994946, 73.365584]}
-                options={{ fillColor: "#00000" }}
-              />
-            </Map>
-          </YMaps>
+              <Map
+                defaultState={{ center: [54.994946, 73.365584], zoom: 17 }}
+                width="100%"
+                height="250px"
+              >
+                <Placemark
+                  geometry={[54.994946, 73.365584]}
+                  options={{ fillColor: "#00000" }}
+                />
+              </Map>
+            </YMaps>
           </div>
           <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
           <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
@@ -429,8 +485,8 @@ export default function HomeClient() {
           </div>
 
           <p className={`${alethianext.className} text-[16px] text-right`}>
-            Мы будем рады, если вместо цветов вы подарите нам вашу любимую книгу
-            для нашей семейной библиотеки
+            Пожалуйста, не дарите нам цветы, так как мы не успеем насладиться их красотой. 
+            Если вы хотите сделать нам комплимент, замените букет бутылочкой алкоголя или картриджем для instax mini
           </p>
 
           <div
@@ -462,11 +518,19 @@ export default function HomeClient() {
           <h2 className={`${hello_january.className} text-7xl`}>Присутствие</h2>
           <div className=" h-[1px] bg-black max-w-[120px] grow-1 mt-6"></div>
         </div>
-        <p className={`${alethianext.className} text-[16px] text-right`}>
-          Пожалуйста, подтвердите ваше присутствие на нашем празднике до 1 июня 2026 года, перейдя в общий чат гостей в What’s App
+        <p
+          className={`${alethianext.className} text-[16px] text-right`}
+          data-aos="fade-up"
+          data-aos-once="true"
+        >
+          Пожалуйста, подтвердите ваше присутствие на нашем празднике до 1 июня
+          2026 года, перейдя в общий чат гостей в What’s App
         </p>
         <div className="flex justify-center items-center p-10">
-          <a href="https://chat.whatsapp.com/KDEczjBkiFwCQeT1RShsOr?mode=wwt" className={`${alethianext.className} text-black underline`}>
+          <a
+            href="https://chat.whatsapp.com/KDEczjBkiFwCQeT1RShsOr?mode=wwt"
+            className={`${alethianext.className} text-black underline`}
+          >
             <Image
               src="/whatsapp-icon.png"
               height={20}
@@ -474,14 +538,150 @@ export default function HomeClient() {
               alt="WhatsApp"
               className="inline-block mr-2"
             />
-            Присоединиться к чату гостей
+            Вступить в чат гостей
           </a>
         </div>
-        
+      </section>
+      <section className="bg-[url(/background_4.jpg)] bg-cover bg-center p-8">
+        <CountDown />
+      </section>
+      <section className=" bg-white text-black p-[30px]">
+        <div
+          className=" w-full text-right justify-end gap-4 flex items-center mb-8 pt-8"
+          data-aos="fade-up"
+          data-aos-once="true"
+        >
+          <h2 className={`${hello_january.className} text-7xl`}>Анкета</h2>
+          <div className=" h-[1px] bg-black max-w-[120px] grow-1 mt-6"></div>
+        </div>
+        <form
+          className="w-full flex flex-col items-end"
+          onSubmit={(e) => {
+            e.preventDefault();
+            Vote();
+          }}
+        >
+          <p
+            className={`${alethianext.className} text-[16px] text-right mb-4`}
+            data-aos="fade-up"
+            data-aos-once="true"
+          >
+            Чтобы все прошло идеально и этот день запомнился надолго,
+            пожалуйста, ответьте на несколько вопросов
+          </p>
+          <p
+            className={`${alethianext.className} text-[14px] text-right mb-4`}
+            data-aos="fade-up"
+            data-aos-once="true"
+          >
+            *Заполните форму для каждого гостя отдельно.
+          </p>
+
+          <input
+            type="text"
+            placeholder="ИМЯ И ФАМИЛИЯ"
+            className={` ${alethianext.className} w-full text-right border-b  border-black py-2 placeholder-gray-400 focus:outline-none mb-8`}
+            data-aos="fade-up"
+            data-aos-once="true"
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <p
+            className={`${alethianext.className} text-[16px] font-extrabold text-right mb-1`}
+            data-aos="fade-up"
+            data-aos-once="true"
+            data-aos-delay="200"
+          >
+            Понадобится ли вам трансфер:
+          </p>
+          <div
+            className="flex flex-col gap-1 ml-4"
+            data-aos="fade-up"
+            data-aos-once="true"
+            data-aos-delay="200"
+          >
+            <label className="flex items-center justify-end gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="transfer"
+                value="Да"
+                onChange={() => setTransfer(true)}
+                className="hidden peer"
+              />
+              <span>Да</span>
+              <span className="w-4 h-4 border-2 border-black rounded-full flex items-center justify-center peer-checked:after:content-[''] peer-checked:after:block peer-checked:after:w-2 peer-checked:after:h-2 peer-checked:after:bg-black peer-checked:after:rounded-full"></span>
+            </label>
+
+            <label className="flex items-center justify-end gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="transfer"
+                value="Нет"
+                onChange={() => setTransfer(true)}
+                className="hidden peer"
+              />
+              <span>Нет</span>
+              <span className="w-4 h-4 border-2 border-black rounded-full flex items-center justify-center peer-checked:after:content-[''] peer-checked:after:block peer-checked:after:w-2 peer-checked:after:h-2 peer-checked:after:bg-black peer-checked:after:rounded-full"></span>
+            </label>
+          </div>
+          <p
+            className={`${alethianext.className} text-[16px] font-extrabold text-right mb-1 mt-8`}
+            data-aos="fade-up"
+            data-aos-once="true"
+            data-aos-delay="200"
+          >
+            Предпочтения по еде:
+          </p>
+          <div
+            className="flex flex-col items-end mb-4"
+            data-aos="fade-up"
+            data-aos-once="true"
+            data-aos-delay="200"
+          >
+            {["Мясо", "Рыба", "Овощи", "Все"].map((item) => (
+              <label key={item} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="hidden peer"
+                  value={item}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setFood((prev) =>
+                      prev.includes(value)
+                        ? prev.filter((f) => f !== value)
+                        : [...prev, value]
+                    );
+                  }}
+                />
+                <span>{item}</span>
+                <span className="w-4 h-4 border-2 border-black flex items-center justify-center peer-checked:bg-black"></span>
+              </label>
+            ))}
+          </div>
+
+          <input
+            type="text"
+            placeholder="ПОЖЕЛАНИЯ ПО АЛКОГОЛЮ:"
+            className={` ${alethianext.className} w-full text-right border-b  border-black py-2 placeholder-gray-400 focus:outline-none my-8`}
+            data-aos="fade-up"
+            data-aos-once="true"
+            onChange={(e) => setAlcohol(e.target.value)}
+          />
+
+          <button
+            type="submit"
+            className="bg-black text-white uppercase tracking-wider px-8 py-3 rounded mt-6"
+          >
+            Отправить
+          </button>
+        </form>
       </section>
 
-      <section className="bg-[url(/background_4.jpg)] bg-cover bg-center p-8">
-          <CountDown />
+      <section className="bg-[url(/footer-01.jpg)] bg-cover bg-center p-8 text-center">
+        <p className={`${hello_january.className} text-8xl`} >До встречи</p>
+        <p className={`${mak.className} text-7xl`} >Антон</p>
+        <p className={`${mak.className} text-3xl`} >and</p>
+        <p className={`${mak.className} text-7xl`} >Кристина</p>
       </section>
     </main>
   );

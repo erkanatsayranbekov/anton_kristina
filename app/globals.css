@@ -53,3 +53,8 @@ td {
     transform: scale(1);
   }
 }
+
+
+:checked {
+    background-color: #000000 !important
+}
