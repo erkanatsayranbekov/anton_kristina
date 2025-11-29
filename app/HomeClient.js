@@ -6,13 +6,17 @@ import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
 import CountDown from "./components/CountDown";
 import dynamic from "next/dynamic";
-
+import { YMapProvider } from "./components/yandex/YMapProvider";
 
 export default function HomeClient() {
   useEffect(() => {
     AOS.init({ duration: 2000 });
   }, []);
-  const YMap = dynamic(() => import("./components/Maps"), { ssr: false });
+  const Map = dynamic(() => import("./components/yandex/Map"), { ssr: false });
+  const Placemark = dynamic(() => import("./components/yandex/Placemark"), {
+    ssr: false,
+  });
+
   const [name, setName] = useState("");
   const [transfer, setTransfer] = useState(false);
   const [food, setFood] = useState([]);
@@ -40,7 +44,7 @@ export default function HomeClient() {
           data: [
             {
               "Имя и Фамилия": name,
-              "Трансфер": transfer ? "Нужен" : "Не нужен",
+              Трансфер: transfer ? "Нужен" : "Не нужен",
               "Предпочтения по еде": food_str,
               "Пожелания по алкоголю": alcohol_str,
             },
@@ -225,95 +229,104 @@ export default function HomeClient() {
         </div>
       </section>
       <section className=" bg-white p-[50px] text-black">
-        <div
-          className=" w-full text-right justify-end gap-4 flex items-center mb-8"
-          data-aos="fade-up"
-          data-aos-once="true"
+        <YMapProvider
+          apikey="536168cc-8dbb-4923-a06f-9a6bd5a9cf15"
+          lang="ru_RU"
         >
-          <h2 className={`${hello_january.className} text-7xl`}>Локация</h2>
-          <div className=" h-[1px] bg-black max-w-[120px] grow-1 mt-6"></div>
-        </div>
-        <div className="w-full text-right flex-col items-end justify-end flex ">
-          <p
-            className={` ${alethianext.className} text-2xl mb-2`}
-            data-aos="fade-right"
-            data-aos-once="true"
-          >
-            Торжественная церемония
-          </p>
           <div
-            className={` ${alethianext.className} text-[16px]`}
-            data-aos="fade-right"
-            data-aos-delay="200"
+            className=" w-full text-right justify-end gap-4 flex items-center mb-8"
+            data-aos="fade-up"
             data-aos-once="true"
           >
-            <p>Центральный отдел управления ЗАГС</p>
-            <p>г. Омск, ул. Иртышская Набережная, д. 9</p>
-            <p>Cбор гостей в 14:45</p>
-            <p>Начало в 15:00</p>
+            <h2 className={`${hello_january.className} text-7xl`}>Локация</h2>
+            <div className=" h-[1px] bg-black max-w-[120px] grow-1 mt-6"></div>
           </div>
-        </div>
-
-        <div
-          className=" opacity-100 transform-none relative grayscale-100 p-[10px] my-12"
-          data-aos="fade-left"
-          data-aos-delay="400"
-          data-aos-once="true"
-        >
-          <div className="z-20 border-[1px]">
-            <YMap center={[54.979097, 73.374248]} />
+          <div className="w-full text-right flex-col items-end justify-end flex ">
+            <p
+              className={` ${alethianext.className} text-2xl mb-2`}
+              data-aos="fade-right"
+              data-aos-once="true"
+            >
+              Торжественная церемония
+            </p>
+            <div
+              className={` ${alethianext.className} text-[16px]`}
+              data-aos="fade-right"
+              data-aos-delay="200"
+              data-aos-once="true"
+            >
+              <p>Центральный отдел управления ЗАГС</p>
+              <p>г. Омск, ул. Иртышская Набережная, д. 9</p>
+              <p>Cбор гостей в 14:45</p>
+              <p>Начало в 15:00</p>
+            </div>
           </div>
-          <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
-          <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
-        </div>
 
-        <div
-          className=" w-full flex justify-center items-center mb-8"
-          data-aos="pulse"
-          data-aos-once="true"
-        >
-          <Image
-            src="/heart-black-01.svg"
-            height={20}
-            width={20}
-            alt="Heart"
-            className="animate-pulseCustom"
-          />
-        </div>
-
-        <div className="w-full text-left flex-col items-start justify-start flex ">
-          <p
-            className={` ${alethianext.className} text-2xl mb-2`}
-            data-aos="fade-right"
-            data-aos-once="true"
-          >
-            Праздничный банкет
-          </p>
           <div
-            className={` ${alethianext.className} text-[16px]`}
-            data-aos="fade-right"
-            data-aos-delay="200"
+            className=" opacity-100 transform-none relative grayscale-100 p-[10px] my-12"
+            data-aos="fade-left"
+            data-aos-delay="400"
             data-aos-once="true"
           >
-            <p>Ресторан «Малибу», банкетный зал «Жемчуг»</p>
-            <p>г. Омск, Фрунзе, 47</p>
-            <p>Фуршет 15:30</p>
-            <p>Начало банкета 16:00</p>
+            <div className="z-20 border-[1px]">
+              <Map center={[54.979097, 73.374248]} zoom={17} >
+                  <Placemark geometry={[54.979097, 73.374248]} />
+              </Map>
+            </div>
+            <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
+            <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
           </div>
-        </div>
 
-        <div
-          className=" opacity-100 transform-none relative grayscale-100 p-[10px] mt-12"
-          data-aos="fade-right"
-          data-aos-delay="400"
-          data-aos-once="true"
-        >
-          <div className="z-20 border-[1px]">
-            <YMap center={[54.994946, 73.365584]} />
+          <div
+            className=" w-full flex justify-center items-center mb-8"
+            data-aos="pulse"
+            data-aos-once="true"
+          >
+            <Image
+              src="/heart-black-01.svg"
+              height={20}
+              width={20}
+              alt="Heart"
+              className="animate-pulseCustom"
+            />
           </div>
-          <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
-          <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
-        </div>
+
+          <div className="w-full text-left flex-col items-start justify-start flex ">
+            <p
+              className={` ${alethianext.className} text-2xl mb-2`}
+              data-aos="fade-right"
+              data-aos-once="true"
+            >
+              Праздничный банкет
+            </p>
+            <div
+              className={` ${alethianext.className} text-[16px]`}
+              data-aos="fade-right"
+              data-aos-delay="200"
+              data-aos-once="true"
+            >
+              <p>Ресторан «Малибу», банкетный зал «Жемчуг»</p>
+              <p>г. Омск, Фрунзе, 47</p>
+              <p>Фуршет 15:30</p>
+              <p>Начало банкета 16:00</p>
+            </div>
+          </div>
+
+          <div
+            className=" opacity-100 transform-none relative grayscale-100 p-[10px] mt-12"
+            data-aos="fade-right"
+            data-aos-delay="400"
+            data-aos-once="true"
+          >
+            <div className="z-20 border-[1px]">
+              <Map center={[54.994946, 73.365584]} zoom={17}>
+                  <Placemark geometry={[54.994946, 73.365584]} />
+              </Map>
+            </div>
+            <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
+            <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
+          </div>
+        </YMapProvider>
       </section>
       <section className="bg-[url(/background_2.jpg)] bg-cover bg-center min-h-[800px]">
         <div className=" flex flex-col gap-[5vh] h-full bg-[rgba(0,0,0,0.4)] p-2.5">
@@ -450,8 +463,9 @@ export default function HomeClient() {
           </div>
 
           <p className={`${alethianext.className} text-[16px] text-right`}>
-            Пожалуйста, не дарите нам цветы, так как мы не успеем насладиться их красотой. 
-            Если вы хотите сделать нам комплимент, замените букет бутылочкой алкоголя или картриджем для instax mini
+            Пожалуйста, не дарите нам цветы, так как мы не успеем насладиться их
+            красотой. Если вы хотите сделать нам комплимент, замените букет
+            бутылочкой алкоголя или картриджем для instax mini
           </p>
 
           <div
@@ -637,25 +651,27 @@ export default function HomeClient() {
             data-aos-once="true"
             data-aos-delay="200"
           >
-            {["Водка", "Вино", "Шампанское", "Безалкогольный напитки"].map((item) => (
-              <label key={item} className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  className="hidden peer"
-                  value={item}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setAlcohol((prev) =>
-                      prev.includes(value)
-                        ? prev.filter((f) => f !== value)
-                        : [...prev, value]
-                    );
-                  }}
-                />
-                <span>{item}</span>
-                <span className="w-4 h-4 border-2 border-black flex items-center justify-center peer-checked:bg-black"></span>
-              </label>
-            ))}
+            {["Водка", "Вино", "Шампанское", "Безалкогольный напитки"].map(
+              (item) => (
+                <label key={item} className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    className="hidden peer"
+                    value={item}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setAlcohol((prev) =>
+                        prev.includes(value)
+                          ? prev.filter((f) => f !== value)
+                          : [...prev, value]
+                      );
+                    }}
+                  />
+                  <span>{item}</span>
+                  <span className="w-4 h-4 border-2 border-black flex items-center justify-center peer-checked:bg-black"></span>
+                </label>
+              )
+            )}
           </div>
           <button
             type="submit"
@@ -667,10 +683,10 @@ export default function HomeClient() {
       </section>
 
       <section className="bg-[url(/footer-01.jpg)] bg-cover bg-center p-8 text-center">
-        <p className={`${hello_january.className} text-8xl`} >До встречи</p>
-        <p className={`${mak.className} text-7xl`} >Антон</p>
-        <p className={`${mak.className} text-3xl`} >and</p>
-        <p className={`${mak.className} text-7xl`} >Кристина</p>
+        <p className={`${hello_january.className} text-8xl`}>До встречи</p>
+        <p className={`${mak.className} text-7xl`}>Антон</p>
+        <p className={`${mak.className} text-3xl`}>and</p>
+        <p className={`${mak.className} text-7xl`}>Кристина</p>
       </section>
     </main>
   );

@@ -27,6 +27,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.14
+      '@yandex/ymaps3-types':
+        specifier: ^1.0.18086676
+        version: 1.0.18086676
       tailwindcss:
         specifier: ^4
         version: 4.1.14
@@ -336,6 +339,20 @@ packages:
 
   '@types/yandex-maps@2.1.29':
     resolution: {integrity: sha512-nuibRWj3RU/9KXlCzTrRtDE+n6V9l7NbT9JakicqZ5OXIdwyb6blvV2Uwn6lB58WYm3DSUDP2I2AWlnWMc8z2w==}
+
+  '@yandex/ymaps3-types@1.0.18086676':
+    resolution: {integrity: sha512-iNuh1wkNLInf09TxP/+RZmHBDZPobR81sgWhl1TsJhDh3lfk7r/8VxPfbnvApsXWTfj+TgtLrHUuHNe95EAljA==}
+    peerDependencies:
+      '@types/react': 16-19
+      '@types/react-dom': 16-19
+      '@vue/runtime-core': '3'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+      '@vue/runtime-core':
+        optional: true
 
   aos@2.3.4:
     resolution: {integrity: sha512-zh/ahtR2yME4I51z8IttIt4lC1Nw0ktsFtmeDzID1m9naJnWXhCoARaCgNOGXb5CLy3zm+wqmRAEgMYB5E2HUw==}
@@ -771,6 +788,8 @@ snapshots:
       tailwindcss: 4.1.14
 
   '@types/yandex-maps@2.1.29': {}
+
+  '@yandex/ymaps3-types@1.0.18086676': {}
 
   aos@2.3.4:
     dependencies:
