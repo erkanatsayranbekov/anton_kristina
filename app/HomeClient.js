@@ -4,18 +4,19 @@ import Image from "next/image";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect, useState } from "react";
-import { YMaps, Map, Placemark, Button } from "@pbe/react-yandex-maps";
 import CountDown from "./components/CountDown";
+import dynamic from "next/dynamic";
+
 
 export default function HomeClient() {
   useEffect(() => {
     AOS.init({ duration: 2000 });
   }, []);
-
+  const YMap = dynamic(() => import("./components/Maps"), { ssr: false });
   const [name, setName] = useState("");
   const [transfer, setTransfer] = useState(false);
   const [food, setFood] = useState([]);
-  const [alcohol, setAlcohol] = useState("");
+  const [alcohol, setAlcohol] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const Vote = async () => {
@@ -23,20 +24,9 @@ export default function HomeClient() {
       alert("Введите имя");
       return;
     }
-    let food_str = ''
-    food.forEach((f, index) => {
-      if (index === 0) {
-        food_str = f
-      } else {
-        food_str = food_str + ", " + f
-      }
-    })
-    let transfer_str = ''
-    if (transfer === true) {
-      transfer_str = 'Нужен'
-    } else {
-      transfer_str = 'Не нужен'
-    }
+
+    let food_str = food.join(", ");
+    let alcohol_str = alcohol.join(", ");
 
     setIsSubmitting(true);
     try {
@@ -50,9 +40,9 @@ export default function HomeClient() {
           data: [
             {
               "Имя и Фамилия": name,
-              "Трансфер": transfer_str,
+              "Трансфер": transfer ? "Нужен" : "Не нужен",
               "Предпочтения по еде": food_str,
-              "Пожелания по алкоголю": alcohol,
+              "Пожелания по алкоголю": alcohol_str,
             },
           ],
         }),
@@ -271,23 +261,7 @@ export default function HomeClient() {
           data-aos-once="true"
         >
           <div className="z-20 border-[1px]">
-            <YMaps
-              query={{
-                lang: "ru_RU",
-                apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
-              }}
-            >
-              <Map
-                defaultState={{ center: [54.979097, 73.374248], zoom: 17 }}
-                width="100%"
-                height="250px"
-              >
-                <Placemark
-                  geometry={[54.979097, 73.374248]}
-                  options={{ fillColor: "#00000" }}
-                />
-              </Map>
-            </YMaps>
+            <YMap center={[54.979097, 73.374248]} />
           </div>
           <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
           <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
@@ -335,24 +309,7 @@ export default function HomeClient() {
           data-aos-once="true"
         >
           <div className="z-20 border-[1px]">
-            <YMaps
-              query={{
-                lang: "ru_RU",
-                apikey: "536168cc-8dbb-4923-a06f-9a6bd5a9cf15",
-              }}
-              className="z-20"
-            >
-              <Map
-                defaultState={{ center: [54.994946, 73.365584], zoom: 17 }}
-                width="100%"
-                height="250px"
-              >
-                <Placemark
-                  geometry={[54.994946, 73.365584]}
-                  options={{ fillColor: "#00000" }}
-                />
-              </Map>
-            </YMaps>
+            <YMap center={[54.994946, 73.365584]} />
           </div>
           <div className=" z-[-1] absolute border-[1px] top-[10px] left-[10px] w-full h-full"></div>
           <div className=" z-[-1] absolute border-[1px] bottom-[10px] right-[10px] w-full h-full"></div>
@@ -625,7 +582,7 @@ export default function HomeClient() {
                 type="radio"
                 name="transfer"
                 value="Нет"
-                onChange={() => setTransfer(true)}
+                onChange={() => setTransfer(false)}
                 className="hidden peer"
               />
               <span>Нет</span>
