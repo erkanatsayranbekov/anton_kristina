@@ -70,6 +70,7 @@ export default function HomeClient() {
 
   return (
     <main>
+      <audio src="/music.mp3" autoPlay loop />
       <section className="header max-[800px]:h-[calc(100vh-70px)] bg-white">
         <div className="relative text-black gap-[20vh] pt-[15vh] h-[calc(100vh-70px)] flex flex-col justify-center items-center">
           <div className=" flex flex-col">
@@ -258,6 +259,7 @@ export default function HomeClient() {
           >
             <p>Центральный отдел управления ЗАГС</p>
             <p>г. Омск, ул. Иртышская Набережная, д. 9</p>
+            <p>Cбор гостей в 14:45</p>
             <p>Начало в 15:00</p>
           </div>
         </div>
@@ -321,7 +323,8 @@ export default function HomeClient() {
           >
             <p>Ресторан «Малибу», банкетный зал «Жемчуг»</p>
             <p>г. Омск, Фрунзе, 47</p>
-            <p>Сбор гостей 16:30, начало 17:00</p>
+            <p>Фуршет 15:30</p>
+            <p>Начало банкета 16:00</p>
           </div>
         </div>
 
@@ -386,7 +389,20 @@ export default function HomeClient() {
                 Не&nbsp;исключено, что&nbsp;вам&nbsp;потребуются платочки
                 для&nbsp;этого трогательного момента
               </div>
-              <div className={`${mak.className} text-[20px]`}>15.00</div>
+              <div className={`${mak.className} text-[20px]`}>15:00</div>
+            </div>
+            <div className="h-[30px] border-r-[1px] border-solid border-white my-[5px]"></div>
+            <div>
+              <div className={`${mak.className} text-2xl`}>Трансфер:</div>
+              <div className={`${mak.className} text-[20px]`}>15:20</div>
+            </div>
+            <div className="h-[30px] border-r-[1px] border-solid border-white my-[5px]"></div>
+            <div>
+              <div className={`${mak.className} text-2xl`}>Фуршет:</div>
+              {/* <div className={`${alethianext.className} text-[16px]`}>
+                Трансфер до банкетного зала
+              </div> */}
+              <div className={`${mak.className} text-[20px]`}>15:30</div>
             </div>
             <div className="h-[30px] border-r-[1px] border-solid border-white my-[5px]"></div>
             <div>
@@ -395,15 +411,7 @@ export default function HomeClient() {
                 Вкусные блюда и&nbsp;весёлая программа от&nbsp;нашего крутого
                 ведущего
               </div>
-              <div className={`${mak.className} text-[20px]`}>17.00</div>
-            </div>
-            <div className="h-[30px] border-r-[1px] border-solid border-white my-[5px]"></div>
-            <div>
-              <div className={`${mak.className} text-2xl`}>Свадебный торт</div>
-              <div className={`${alethianext.className} text-[16px]`}>
-                Обещаем, торт продавать мы&nbsp;не&nbsp;будем
-              </div>
-              <div className={`${mak.className} text-[20px]`}>21.30</div>
+              <div className={`${mak.className} text-[20px]`}>16:00</div>
             </div>
             <div className="h-[30px] border-r-[1px] border-solid border-white my-[5px]"></div>
             <div>
@@ -414,7 +422,7 @@ export default function HomeClient() {
                 Даже&nbsp;такая вечеринка может закончиться,
                 но&nbsp;мы&nbsp;придумаем ещё&nbsp;поводы собраться вместе
               </div>
-              <div className={`${mak.className} text-[20px]`}>23.30</div>
+              <div className={`${mak.className} text-[20px]`}>22:00</div>
             </div>
           </div>
         </div>
@@ -630,7 +638,7 @@ export default function HomeClient() {
             data-aos-once="true"
             data-aos-delay="200"
           >
-            Предпочтения по еде:
+            Предпочтения по мясу:
           </p>
           <div
             className="flex flex-col items-end mb-4"
@@ -638,7 +646,7 @@ export default function HomeClient() {
             data-aos-once="true"
             data-aos-delay="200"
           >
-            {["Мясо", "Рыба", "Овощи", "Все"].map((item) => (
+            {["Курица", "Свинина", "Говядина", "Все"].map((item) => (
               <label key={item} className="flex items-center gap-2">
                 <input
                   type="checkbox"
@@ -658,16 +666,40 @@ export default function HomeClient() {
               </label>
             ))}
           </div>
-
-          <input
-            type="text"
-            placeholder="ПОЖЕЛАНИЯ ПО АЛКОГОЛЮ:"
-            className={` ${alethianext.className} w-full text-right border-b  border-black py-2 placeholder-gray-400 focus:outline-none my-8`}
+          <p
+            className={`${alethianext.className} text-[16px] font-extrabold text-right mb-1 mt-8`}
             data-aos="fade-up"
             data-aos-once="true"
-            onChange={(e) => setAlcohol(e.target.value)}
-          />
-
+            data-aos-delay="200"
+          >
+            Предпочтения по алкоголю:
+          </p>
+          <div
+            className="flex flex-col items-end mb-4"
+            data-aos="fade-up"
+            data-aos-once="true"
+            data-aos-delay="200"
+          >
+            {["Водка", "Вино", "Шампанское", "Безалкогольный напитки"].map((item) => (
+              <label key={item} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="hidden peer"
+                  value={item}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setAlcohol((prev) =>
+                      prev.includes(value)
+                        ? prev.filter((f) => f !== value)
+                        : [...prev, value]
+                    );
+                  }}
+                />
+                <span>{item}</span>
+                <span className="w-4 h-4 border-2 border-black flex items-center justify-center peer-checked:bg-black"></span>
+              </label>
+            ))}
+          </div>
           <button
             type="submit"
             className="bg-black text-white uppercase tracking-wider px-8 py-3 rounded mt-6"
