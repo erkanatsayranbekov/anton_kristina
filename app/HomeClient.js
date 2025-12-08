@@ -507,11 +507,11 @@ export default function HomeClient() {
         </p>
         <div className="flex justify-center items-center p-10">
           <a
-            href="https://chat.whatsapp.com/KDEczjBkiFwCQeT1RShsOr?mode=wwt"
+            href="https://t.me/+TarXZs84clJmZmJi"
             className={`${alethianext.className} text-black underline`}
           >
             <Image
-              src="/whatsapp-icon.png"
+              src="/Telegram_logo.svg.webp"
               height={20}
               width={20}
               alt="WhatsApp"
